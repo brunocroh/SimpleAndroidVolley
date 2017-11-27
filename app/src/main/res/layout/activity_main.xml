@@ -1,0 +1,24 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <Button
+        android:id="@+id/btnStartActivity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="23dp"
+        android:text="Employee" />
+
+    <Button
+        android:id="@+id/btnShipperActivity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="13dp"
+        android:text="Shipper"
+        android:layout_below="@+id/btnStartActivity"
+        android:layout_alignLeft="@+id/btnStartActivity"
+        android:layout_alignStart="@+id/btnStartActivity" />
+
+</RelativeLayout>
