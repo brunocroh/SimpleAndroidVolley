@@ -58,6 +58,7 @@ public class ShipperActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shipper);
+        shipper = new Shipper();
         hiddenKeyboard();
         bindView();
         createEventClickSave();
@@ -78,12 +79,10 @@ public class ShipperActivity extends Activity {
 
     private void createEventClickSave() {
         btnShipperSalvar.setOnClickListener(new OnClickListener() {
-
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
                 clickBtnSalvar();
                 makeJsonArrayRequest();
-
             }
         });
     }
@@ -147,12 +146,11 @@ public class ShipperActivity extends Activity {
 
     private void clickBtnSalvar() {
 
-        String v = shipper.getShipperID();
-        if(shipper.getShipperID() != "0"){
-            makeJsonObjectRequestPut();
+        if(etShipperID.getText().toString() == null || "".equals(etShipperID.getText().toString()) || etShipperID.getText().toString() == "0"){
+            makeJsonObjectRequestPost();
         }
         else{
-            makeJsonObjectRequestPost();
+            makeJsonObjectRequestPut();
         }
 
         etShipperID.setText("");
@@ -240,22 +238,13 @@ public class ShipperActivity extends Activity {
 
     private void makeJsonObjectRequestPost() {
         Map<String, String> params = new HashMap<String, String>();
-        params.put("tag", "test");
+
         JSONObject parametros = new JSONObject();
         try {
 
-            if (shipper != null) {
-                parametros.put("shipperID", shipper.getShipperID());
-                parametros.put("companyName", shipper.getCompanyName());
-                parametros.put("phone", shipper.getPhone());
-                parametros.put("isUpdate", true);
-            } else {
-                parametros.put("shipperID", etShipperID.getText().toString());
-                parametros.put("companyName", etShipperCompanyName.getText().toString());
-                parametros.put("phone", etShipperPhone.getText().toString());
-                parametros.put("isUpdate", false);
-            }
-
+             parametros.put("companyName", etShipperCompanyName.getText().toString());
+             parametros.put("phone", etShipperPhone.getText().toString());
+             parametros.put("isUpdate", false);
 
         } catch (JSONException e1) {
             Log.e(TAG, "Erro: " + e1.getMessage());
