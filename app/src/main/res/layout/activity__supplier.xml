@@ -2,79 +2,71 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical" >
 
     <TextView
-        android:id="@+id/tvShipperID"
+        android:id="@+id/tvSupplierFirstName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Shipper ID" />
+        android:text="First Name" />
 
     <EditText
-        android:id="@+id/etShipperID"
+        android:id="@+id/etSupplierFirstName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:inputType="text">
+        android:inputType="textPersonName" >
 
         <requestFocus />
     </EditText>
 
     <TextView
-        android:id="@+id/tvShipperCompanyName"
+        android:id="@+id/tvSupplierLastName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Company Name" />
+        android:text="Last Name" />
 
     <EditText
-        android:id="@+id/etShipperCompanyName"
+        android:id="@+id/etSupplierLastName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:inputType="text" />
+        android:inputType="textPersonName" />
 
     <TextView
-        android:id="@+id/tvShipperPhone"
+        android:id="@+id/tvSupplierPhoneNumber"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Phone Number" />
 
     <EditText
-        android:id="@+id/etShipperPhone"
+        android:id="@+id/etSupplierPhoneNumber"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
         android:inputType="phone" />
 
-
-    <RelativeLayout
+    <TextView
+        android:id="@+id/tvSupplierBirthDate"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:text="Birth Date" />
 
-        <Button
-            android:id="@+id/btnShipperSalvar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:text="Salvar" />
+    <EditText
+        android:id="@+id/etSupplierBirthDate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="date" />
 
-        <Button
-            android:id="@+id/btnShipperDeletar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_marginLeft="200dp"
-            android:text="Deletar" />
-
-    </RelativeLayout>
-
-
-
+    <Button
+        android:id="@+id/btnSupplierSalvar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Salvar" />
 
     <ListView
         android:id="@+id/listview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
-
-
 </LinearLayout>

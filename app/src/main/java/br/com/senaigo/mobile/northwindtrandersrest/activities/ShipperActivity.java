@@ -13,11 +13,14 @@ import com.android.volley.Request.Method;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
+import com.android.volley.toolbox.HttpClientStack;
+import com.android.volley.toolbox.HttpStack;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 
 import android.app.Activity;
 import android.content.Context;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -48,6 +51,7 @@ public class ShipperActivity extends Activity {
     private EditText etShipperCompanyName;
     private EditText etShipperPhone;
     private Button btnShipperSalvar;
+    private Button btnShipperDeletar;
     private ListView listview;
 
     @Override
@@ -57,7 +61,19 @@ public class ShipperActivity extends Activity {
         hiddenKeyboard();
         bindView();
         createEventClickSave();
+        createEventClickDelit();
         makeJsonArrayRequest();
+    }
+
+    private void createEventClickDelit() {
+        btnShipperDeletar.setOnClickListener(new OnClickListener(){
+
+            @Override
+            public void onClick(View view) {
+                clickBtnDeletar();
+                makeJsonArrayRequest();
+            }
+        });
     }
 
     private void createEventClickSave() {
@@ -81,15 +97,112 @@ public class ShipperActivity extends Activity {
         etShipperCompanyName = (EditText) findViewById(R.id.etShipperCompanyName);
         etShipperPhone = (EditText) findViewById(R.id.etShipperPhone);
         btnShipperSalvar = (Button) findViewById(R.id.btnShipperSalvar);
+        btnShipperDeletar = (Button) findViewById(R.id.btnShipperDeletar);
         listview = (ListView) findViewById(R.id.listview);
     }
 
+    private void clickBtnDeletar() {
+
+        final JSONObject parametros = new JSONObject();
+        String urlDelete= "";
+        shipper.setShipperID(etShipperID.getText().toString());
+        shipper.setCompanyName(etShipperCompanyName.getText().toString());
+        shipper.setPhone(etShipperPhone.getText().toString());
+        try {
+            parametros.put("shipperID", shipper.getShipperID());
+            parametros.put("companyName", shipper.getCompanyName());
+            parametros.put("phone", shipper.getPhone());
+            parametros.put("isUpdate", true);
+
+             urlDelete = URL_POST+"/"+shipper.getShipperID();
+
+        } catch (JSONException e1) {
+            Log.e(TAG, "Erro: " + e1.getMessage());
+        }
+        JsonObjectRequest deleteRequest = new JsonObjectRequest
+                (Method.DELETE, urlDelete, parametros,
+                   new Response.Listener<JSONObject>() {
+
+                       @Override
+                       public void onResponse(JSONObject response) {
+                           Log.d(TAG, response.toString());
+
+                           Toast.makeText(getApplicationContext(), response.toString(), Toast.LENGTH_SHORT).show();
+                           ((ArrayAdapter) listview.getAdapter()).notifyDataSetChanged();
+
+                       }
+                   }, new Response.ErrorListener() {
+
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        VolleyLog.d(TAG, "Error: " + error.getMessage());
+                        Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+        AppController.getInstance().addToRequestQueue(deleteRequest);
+
+
+    }
+
     private void clickBtnSalvar() {
-        makeJsonObjectRequestPost();
+
+        String v = shipper.getShipperID();
+        if(shipper.getShipperID() != "0"){
+            makeJsonObjectRequestPut();
+        }
+        else{
+            makeJsonObjectRequestPost();
+        }
+
         etShipperID.setText("");
         etShipperCompanyName.setText("");
         etShipperPhone.setText("");
         shipper = null;
+    }
+
+    private void makeJsonObjectRequestPut() {
+
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("tag", "test");
+        JSONObject parametros = new JSONObject();
+
+        shipper.setShipperID(etShipperID.getText().toString());
+        shipper.setCompanyName(etShipperCompanyName.getText().toString());
+        shipper.setPhone(etShipperPhone.getText().toString());
+
+
+        try {
+           parametros.put("shipperID", shipper.getShipperID());
+           parametros.put("companyName", shipper.getCompanyName());
+           parametros.put("phone", shipper.getPhone());
+           parametros.put("isUpdate", true);
+
+        } catch (JSONException e1) {
+            Log.e(TAG, "Erro: " + e1.getMessage());
+        }
+
+        JsonObjectRequest jsonObjReq = new JsonObjectRequest(Method.PUT, URL_POST, parametros, new Response.Listener<JSONObject>() {
+
+            @Override
+            public void onResponse(JSONObject response) {
+                Log.d(TAG, response.toString());
+
+                Toast.makeText(getApplicationContext(), response.toString(), Toast.LENGTH_SHORT).show();
+                ((ArrayAdapter) listview.getAdapter()).notifyDataSetChanged();
+
+            }
+        }, new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                VolleyLog.d(TAG, "Error: " + error.getMessage());
+                Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        AppController.getInstance().addToRequestQueue(jsonObjReq);
+
     }
 
     private void makeJsonObjectRequest() {
@@ -217,6 +330,7 @@ public class ShipperActivity extends Activity {
 
                             Toast.makeText(ShipperActivity.this, "O shipper já pode ser editado", Toast.LENGTH_SHORT).show();
                         }
+
 
                     });
 

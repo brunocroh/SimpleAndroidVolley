@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/NorthWindTrandersRest.iml" filepath="$PROJECT_DIR$/NorthWindTrandersRest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/SimpleAndroidVolley.iml" filepath="$PROJECT_DIR$/SimpleAndroidVolley.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>
