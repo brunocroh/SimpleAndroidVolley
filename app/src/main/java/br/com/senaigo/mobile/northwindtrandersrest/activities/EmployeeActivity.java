@@ -61,7 +61,50 @@ public class EmployeeActivity extends Activity {
         bindView();
         createEventClickSave();
         createEventEdit();
+        createEventDelete();
         makeJsonArrayRequest();
+    }
+
+    private void createEventDelete() {
+        btnEmployeeDeletar.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Deletar();
+                makeJsonArrayRequest();
+            }
+        });
+    }
+
+    private void Deletar() {
+        final JSONObject parametros = new JSONObject();
+        String urlDelete= "";
+
+        urlDelete = URL_POST+"/"+employee.getId();
+
+        JsonObjectRequest deleteRequest = new JsonObjectRequest
+                (Method.DELETE, urlDelete, parametros,
+                        new Response.Listener<JSONObject>() {
+
+                            @Override
+                            public void onResponse(JSONObject response) {
+                                Log.d(TAG, response.toString());
+
+                                Toast.makeText(getApplicationContext(), response.toString(), Toast.LENGTH_SHORT).show();
+                                ((ArrayAdapter) listview.getAdapter()).notifyDataSetChanged();
+
+                            }
+                        }, new Response.ErrorListener() {
+
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        VolleyLog.d(TAG, "Error: " + error.getMessage());
+                        Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+        AppController.getInstance().addToRequestQueue(deleteRequest);
+
+
     }
 
     private void createEventEdit() {
@@ -144,6 +187,7 @@ public class EmployeeActivity extends Activity {
         etEmployeeBirthDate = (EditText) findViewById(R.id.etEmployeeBirthDate);
         btnEmployeeSalvar = (Button) findViewById(R.id.btnEmployeeSalvar);
         btnEmployeeEditar = (Button) findViewById(R.id.btnEmployeeEditar);
+        btnEmployeeDeletar = (Button) findViewById(R.id.btnEmployeeDeletar);
         listview = (ListView) findViewById(R.id.listview);
     }
 

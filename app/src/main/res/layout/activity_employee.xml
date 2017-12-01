@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
+    android:orientation="vertical">
 
     <TextView
         android:id="@+id/tvEmployeeFirstName"
@@ -59,25 +59,34 @@
         android:ems="10"
         android:inputType="date" />
 
-    <Button
-    android:id="@+id/btnEmployeeSalvar"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:text="Salvar" />
-
-    <Button
-    android:id="@+id/btnEmployeeEditar"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:text="Editar" />
-
-    <Button
-        android:id="@+id/btnEmployeeDeletar"
+    <RelativeLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Deletar" />
+        android:layout_height="wrap_content">
+
+        <Button
+            android:id="@+id/btnEmployeeSalvar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Salvar" />
+
+        <Button
+            android:id="@+id/btnEmployeeEditar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="100dp"
+            android:text="Editar" />
+
+        <Button
+            android:id="@+id/btnEmployeeDeletar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="200dp"
+            android:text="Deletar" />
+
+    </RelativeLayout>
+
     <ListView 
 	    android:id="@+id/listview"
 	    android:layout_width="wrap_content"
-	    android:layout_height="wrap_content" /> 
+	    android:layout_height="wrap_content" />
 </LinearLayout>
