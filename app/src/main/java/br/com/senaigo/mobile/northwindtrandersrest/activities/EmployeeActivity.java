@@ -49,6 +49,8 @@ public class EmployeeActivity extends Activity {
     private EditText etEmployeePhoneNumber;
     private EditText etEmployeeBirthDate;
     private Button btnEmployeeSalvar;
+    private Button btnEmployeeEditar;
+    private Button btnEmployeeDeletar;
     private ListView listview;
 
     @Override
@@ -58,7 +60,65 @@ public class EmployeeActivity extends Activity {
         hiddenKeyboard();
         bindView();
         createEventClickSave();
+        createEventEdit();
         makeJsonArrayRequest();
+    }
+
+    private void createEventEdit() {
+        btnEmployeeEditar.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Editar();
+                makeJsonArrayRequest();
+            }
+
+        });
+    }
+
+    private void Editar() {
+        Map<String, String> params = new HashMap<String, String>();
+        JSONObject parametros = new JSONObject();
+        try {
+
+            String id = employee.getId();
+            String firstName = etEmployeeFirstName.getText().toString();
+            String lastName = etEmployeeLastName.getText().toString();
+            String homePhone = etEmployeePhoneNumber.getText().toString();
+            String birthDate = etEmployeeBirthDate.getText().toString();
+
+            parametros.put("employeeID",id);
+            parametros.put("firstName",firstName);
+            parametros.put("lastName", lastName);
+            parametros.put("homePhone", homePhone);
+            parametros.put("isUpdate", true);
+
+        } catch (JSONException e1) {
+            Log.e(TAG, "Erro: " + e1.getMessage());
+        }
+
+        JsonObjectRequest jsonObjReq =
+                new JsonObjectRequest(Method.PUT, URL_POST,
+                parametros, new Response.Listener<JSONObject>() {
+
+            @Override
+            public void onResponse(JSONObject response) {
+                Log.d(TAG, response.toString());
+
+                Toast.makeText(getApplicationContext(), response.toString(), Toast.LENGTH_SHORT).show();
+                ((ArrayAdapter) listview.getAdapter()).notifyDataSetChanged();
+
+            }
+        }, new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                VolleyLog.d(TAG, "Error: " + error.getMessage());
+                Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        AppController.getInstance().addToRequestQueue(jsonObjReq);
+
     }
 
     private void createEventClickSave() {
@@ -83,10 +143,12 @@ public class EmployeeActivity extends Activity {
         etEmployeePhoneNumber = (EditText) findViewById(R.id.etEmployeePhoneNumber);
         etEmployeeBirthDate = (EditText) findViewById(R.id.etEmployeeBirthDate);
         btnEmployeeSalvar = (Button) findViewById(R.id.btnEmployeeSalvar);
+        btnEmployeeEditar = (Button) findViewById(R.id.btnEmployeeEditar);
         listview = (ListView) findViewById(R.id.listview);
     }
 
     private void clickBtnSalvar() {
+
         makeJsonObjectRequestPost();
         etEmployeeFirstName.setText("");
         etEmployeeLastName.setText("");
